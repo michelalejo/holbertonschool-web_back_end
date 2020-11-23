@@ -4,6 +4,6 @@
 from typing import Callable
 
 
-def sum_mixed_list(mxd_lst: Callable[[float, int], float]) -> float:
+def sum_mixed_list(mxd_lst: Callable[[int, float], float]) -> float:
     """Type-Annotated Function"""
     return sum(mxd_lst)

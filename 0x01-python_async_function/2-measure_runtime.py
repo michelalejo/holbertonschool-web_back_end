@@ -11,4 +11,5 @@ def measure_time(n: int, max_delay: int) -> float:
     """Asynchronous Coroutine Funtion"""
     pro = time.time()
     asyncio.run(wait_n(n, max_delay))
-    return time.time() - pro / n
+    post = time.time() - pro
+    return post / n

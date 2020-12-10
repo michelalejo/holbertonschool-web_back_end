@@ -17,7 +17,7 @@ class BasicCache(BaseCaching):
 
     def get(self, key):
         """BaseCaching Caching System"""
-        if key:
+        if key is not None:
             for k, v in self.cache_data.items():
                 if k == key:
                     return v

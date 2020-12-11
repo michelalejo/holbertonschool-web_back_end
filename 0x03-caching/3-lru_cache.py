@@ -9,21 +9,21 @@ class LRUCache(BaseCaching):
     def __init__(self) -> None:
         """BaseCaching Caching System"""
         super().__init__()
-        self.tmp = {}
-        self.last = ""
-        self.n = 0
+        self.tmp = []
 
     def put(self, key, item):
         """BaseCaching Caching System"""
         if key and item:
-            self.tmp[self.n] = key
-            k = list(self.tmp.items())[self.n]
-            self.cache_data[k[1]] = item
+            self.cache_data[key] = item
+            if key not in self.tmp:
+                self.tmp.append(key)
+            else:
+                lasted = self.tmp.pop(self.tmp.index(key))
+                self.tmp.append(lasted)
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-                firt = list(self.cache_data.keys())[0]
+                firt = self.tmp.pop(0)
                 print(f"DISCARD: {firt}")
                 del(self.cache_data[firt])
-            self.n += 1
 
     def get(self, key):
         """BaseCaching Caching System"""

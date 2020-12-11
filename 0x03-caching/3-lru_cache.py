@@ -18,8 +18,7 @@ class LRUCache(BaseCaching):
             if key not in self.tmp:
                 self.tmp.append(key)
             else:
-                lasted = self.tmp.pop(self.tmp.index(key))
-                self.tmp.append(lasted)
+                self.tmp.append(self.tmp.pop(self.tmp.index(key)))
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
                 firt = self.tmp.pop(0)
                 print(f"DISCARD: {firt}")

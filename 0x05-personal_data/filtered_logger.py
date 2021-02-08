@@ -4,6 +4,8 @@
 from typing import List
 import re
 import logging
+import mysql.connector
+from os import getenv
 
 
 def filter_datum(fields: List[str],
@@ -32,3 +34,55 @@ class RedactingFormatter(logging.Formatter):
         """ Redacting Formatter class."""
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    """ Redacting Formatter class."""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(handler)
+    return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ Redacting Formatter class."""
+    db = mysql.connector.connection.MySQLConnection(
+        user=getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        password=getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        host=getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        database=getenv('PERSONAL_DATA_DB_NAME'))
+
+    return db
+
+
+def main():
+    """ Redacting Formatter class."""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+
+    result = cursor.fetchall()
+    for data in result:
+        message = f"name={data[0]}; " + \
+                  f"email={data[1]}; " + \
+                  f"phone={data[2]}; " + \
+                  f"ssn={data[3]}; " + \
+                  f"password={data[4]}; " + \
+                  f"ip={data[5]}; " + \
+                  f"last_login={data[6]}; " + \
+                  f"user_agent={data[7]};"
+        print(message)
+        log_record = logging.LogRecord("my_logger", logging.INFO,
+                                       None, None, message, None, None)
+        formatter = RedactingFormatter(PII_FIELDS)
+        formatter.format(log_record)
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()

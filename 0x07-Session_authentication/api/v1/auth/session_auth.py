@@ -35,9 +35,9 @@ class SessionAuth(Auth):
 
 
     def current_user(self, request=None):
-        session_cookie = self.session_cookie(request)
-        if not session_cookie:
-            return
+        cookie = self.session_cookie(request)
+        if not cookie:
+            return None
 
-        _id = self.user_id_for_session_id(session_cookie)
-        return User.get(_id)
+        idd = self.user_id_for_session_id(cookie)
+        return User.get(idd)

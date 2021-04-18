@@ -63,7 +63,8 @@ class Auth:
         return session_id
 
     def get_user_from_session_id(self, session_id: str) -> str:
-         """ Get User from session ID """
+        """Takes a single session_id string argument and
+        returns the corresponding User or None"""
         if not session_id:
             return None
         try:
@@ -93,13 +94,10 @@ class Auth:
             raise ValueError
 
     def update_password(self, reset_token: str, password: str) -> None:
-        """ Takes reset_token string argument and
-        password string argument and returns None."""
+        """ Update password """
         if not reset_token:
             return None
-
-        if not password:
-            return None
+            
         try:
             user = self._db.find_user_by(reset_token=reset_token)
             pwd = _hash_password(password)

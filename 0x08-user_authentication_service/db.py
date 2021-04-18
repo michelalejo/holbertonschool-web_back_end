@@ -60,10 +60,12 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """ Method that takes as argument a required user_id integer
         and arbitrary keyword arguments."""
-        user = self.find_user_by(id=user_id)
-        for key, value in kwargs.items():
-            if key not in User.__table__.columns:
-                raise ValueError
-            setattr(user, key, value)
         session = self._session
+        user = self.find_user_by(id=user_id)
+        data = User.__table__.columns.keys()
+        if not all(key in data for key in kwargs) or not kwargs:
+            raise ValueError
+
+        for i, j in kwargs.items():
+            setattr(user, i, j)
         session.commit()

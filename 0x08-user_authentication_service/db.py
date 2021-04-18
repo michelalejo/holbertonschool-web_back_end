@@ -65,5 +65,6 @@ class DB:
         if not all(key in user_data for key in kwargs) or not kwargs:
             raise ValueError
 
-        setattr(user, str(kwargs.keys()), kwargs.values())
+        for key, value in kwargs.items():
+        setattr(user, key, value)
         self._session.commit()

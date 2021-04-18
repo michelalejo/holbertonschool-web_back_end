@@ -4,13 +4,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.session import Session
-
-from user import Base
-from user import User
-
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+from typing import TypeVar
+from user import Base
+from user import User
 
 
 class DB:
@@ -51,11 +49,10 @@ class DB:
         if not all(key in data for key in kwargs) or not kwargs:
             raise InvalidRequestError
 
-        user = self._session.query(User).filter_by(**kwargs).first()
-
-        if user is None:
+        session = self._session
+        user = session.query(User).filter_by(**kwargs).first()
+        if not user:
             raise NoResultFound
-
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:

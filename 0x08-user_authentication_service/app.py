@@ -69,7 +69,7 @@ def get_reset_password_token() -> str:
     """ Generate a token and respond with a 200 HTTP status
     and the following JSON payload"""
     email = request.form.get('email')
-    try
+    try:
         token = AUTH.get_reset_password_token(email)
     except Exception:
         abort(403)

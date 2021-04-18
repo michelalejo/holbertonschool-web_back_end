@@ -47,8 +47,8 @@ class DB:
         """ Method takes in arbitrary keyword arguments and returns
         the first row found in the users table as filtered by
         the method’s input arguments."""
-        user_data = User.__table__.columns.keys()
-        if not all(key in user_data for key in kwargs) or not kwargs:
+        data = User.__table__.columns.keys()
+        if not all(key in data for key in kwargs) or not kwargs:
             raise InvalidRequestError
 
         session = self._session
@@ -61,10 +61,10 @@ class DB:
         """ Method that takes as argument a required user_id integer
         and arbitrary keyword arguments."""
         user = self.find_user_by(id=user_id)
-        user_data = User.__table__.columns.keys()
-        if not all(key in user_data for key in kwargs) or not kwargs:
-            raise ValueError
+        data = User.__table__.columns.keys()
+        for i in kwargs.keys():
+            if i not in data:
+                raise ValueError
 
-        for key, value in kwargs.items():
-            setattr(user, key, value)
+        setattr(user, str(kwargs.keys()), kwargs.values())
         self._session.commit()

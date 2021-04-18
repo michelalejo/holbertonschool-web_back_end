@@ -66,6 +66,6 @@ class DB:
         if not all(key in data for key in kwargs) or not kwargs:
             raise ValueError
 
-        for i, j in kwargs.items():
-            setattr(user, i, j)
+        for k, v in kwargs.items():
+            setattr(user, k, v)
         session.commit()

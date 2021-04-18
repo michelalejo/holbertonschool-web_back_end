@@ -61,10 +61,11 @@ class DB:
         """ Method that takes as argument a required user_id integer
         and arbitrary keyword arguments."""
         user = self.find_user_by(id=user_id)
-        data = User.__table__.columns.keys()
-        if not all(key in data for key in kwargs):
-            raise ValueError
+        user_data = User.__table__.columns.keys()
+        for i in kwargs.keys():
+            if i not in user_data:
+                raise ValueError
 
-        session = self._session
-        setattr(user, str(kwargs.keys()), kwargs.values())
-        session.commit()
+        for i, j in kwargs.items():
+            setattr(user, i, j)
+        self._session.commit()

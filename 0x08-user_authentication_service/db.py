@@ -62,7 +62,7 @@ class DB:
         and arbitrary keyword arguments."""
         user = self.find_user_by(id=user_id)
         user_data = User.__table__.columns.keys()
-        if not all(key in user_data for key in kwargs):
+        if not all(key in user_data for key in kwargs) or not kwargs:
             raise ValueError
 
         setattr(user, str(kwargs.keys()), kwargs.values())

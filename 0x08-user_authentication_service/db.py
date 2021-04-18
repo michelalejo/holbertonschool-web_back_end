@@ -44,7 +44,7 @@ class DB:
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """method takes in arbitrary keyword arguments and returns
+        """ Method takes in arbitrary keyword arguments and returns
         the first row found in the users table as filtered by
         the method’s input arguments."""
         user_data = User.__table__.columns.keys()
@@ -56,3 +56,16 @@ class DB:
         if not row:
             raise NoResultFound
         return row
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Method that takes as argument a required user_id integer
+        and arbitrary keyword arguments."""
+        user = self.find_user_by(id=user_id)
+        user_data = User.__table__.columns.keys()
+        if not all(key in user_data for key in kwargs):
+            raise ValueError
+
+        setattr(user, str(kwargs.keys()), kwargs.values())
+        self._session.commit()
+
+

@@ -67,5 +67,3 @@ class DB:
 
         setattr(user, str(kwargs.keys()), kwargs.values())
         self._session.commit()
-
-

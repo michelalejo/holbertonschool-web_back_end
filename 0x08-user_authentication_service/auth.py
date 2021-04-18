@@ -51,7 +51,7 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> str:
-        """ It takes an email string argument and 
+        """ It takes an email string argument and
         returns the session ID as a string."""
         try:
             user_data = self._db.find_user_by(email=email)

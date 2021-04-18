@@ -62,9 +62,9 @@ class DB:
         and arbitrary keyword arguments."""
         user = self.find_user_by(id=user_id)
         data = User.__table__.columns.keys()
-        for i in kwargs.keys():
-            if i not in data:
-                raise ValueError
+        if not all(key in data for key in kwargs):
+            raise ValueError
 
+        session = self._session
         setattr(user, str(kwargs.keys()), kwargs.values())
-        self._session.commit()
+        session.commit()

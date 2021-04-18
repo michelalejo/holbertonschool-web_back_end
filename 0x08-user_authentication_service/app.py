@@ -85,15 +85,12 @@ def update_password() -> str:
     """hash the password and update the user’s hashed_password field
     with the new hashed password and the reset_token field to None."""
     email = request.form.get('email')
-    token = request.form.get('reset_token')
+    reset_token = request.form.get('reset_token')
     new_password = request.form.get('new_password')
-    token = AUTH.get_reset_password_token(email)
-    if not token:
-        abort(403)
     try:
-        AUTH.update_password(token, new_password)
+        AUTH.update_password(reset_token, new_password)
         return jsonify({"email": email, "message": "Password updated"}), 200
-    except Exception:
+    except ValueError:
         abort(403)
 
 

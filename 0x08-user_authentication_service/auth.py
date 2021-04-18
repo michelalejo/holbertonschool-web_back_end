@@ -98,7 +98,7 @@ class Auth:
         password string argument and returns None."""
         if not reset_token:
             return None
-        
+
         if not password:
             return None
 

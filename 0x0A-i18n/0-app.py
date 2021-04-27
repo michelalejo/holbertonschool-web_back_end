@@ -3,7 +3,7 @@
 Flask App.
 """
 from flask import Flask, render_template
-from os import getenvs
+from os import getenv
 
 
 app = Flask(__name__)

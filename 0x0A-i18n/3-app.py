@@ -4,7 +4,7 @@ Flask App.
 """
 from flask import Flask, render_template
 from os import getenv
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 
 
 app = Flask(__name__)

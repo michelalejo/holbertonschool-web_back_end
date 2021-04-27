@@ -47,8 +47,8 @@ def get_locale():
 
 def get_user():
     """Returns user dictionary or None"""
-    login_as = request.args.get('login_as')
     try:
+        user_id = request.args.get('login_as')
         return users[int(user_id)]
     except Exception:
         return None

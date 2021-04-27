@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Flask App.
+Flask App
 """
 from flask import Flask, render_template, request
 from os import getenv
@@ -12,7 +12,7 @@ babel = Babel(app)
 
 
 class Config(object):
-    """ Config Class."""
+    """Config Class."""
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'

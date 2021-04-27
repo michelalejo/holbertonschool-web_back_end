@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Route module for the API
+Flask App.
 """
 from flask import Flask, render_template, request
 from os import getenv
@@ -12,7 +12,7 @@ babel = Babel(app)
 
 
 class Config(object):
-    """ class config"""
+    """ Config Class."""
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
@@ -21,16 +21,16 @@ class Config(object):
 app.config.from_object(Config)
 
 
-@babel.localeselector
-def get_locale():
-    """best match locale lang"""
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
 @app.route('/')
 def index():
-    """hello world"""
-    return render_template("3-index.html", message="Welcome to Holberton")
+    """Render index.html."""
+    return render_template("3-index.html")
+
+
+@babel.localeselector
+def get_locale():
+    """Determine the bestmatch languages."""
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 if __name__ == "__main__":

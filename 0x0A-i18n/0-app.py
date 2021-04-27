@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """Render index.html."""
-    return return render_template("0-index.html")
+    return return render_template("0-index.html", message="Welcome to Holberton")
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ import uuid
 
 
 class Cache:
-    """method that takes a data argument and returns a string."""
+    """Cache Class."""
 
     def __init__(self):
         """__Init__."""

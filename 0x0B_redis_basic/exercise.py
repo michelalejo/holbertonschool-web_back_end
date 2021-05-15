@@ -12,12 +12,12 @@ class Cache:
     """method that takes a data argument and returns a string."""
 
     def __init__(self):
-        """constructor"""
+        """__Init__."""
         self._redis = Redis()
         self._redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """returns a string"""
+        """Takes a data argument and returns a string."""
         data = str(uuid.uuid4())
         self._redis.set(data, data)
         return data

@@ -13,13 +13,13 @@ class Cache:
 
     def __init__(self):
         """__Init__."""
-        self._redis = Redis()
-        self._redis.flushdb()
+        self.__redis = Redis()
+        self.__redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Takes a data argument and returns a string."""
         data = str(uuid.uuid4())
-        self._redis.set(data, data)
+        self.__redis.set(data, data)
         return data
 
     def get(self, data: str, fn: Optional[Callable] = None) ->\
@@ -27,7 +27,7 @@ class Cache:
         """take a key string argument and
         an optional Callable argument named fn."""
         if data:
-            res = self._redis.get(data)
+            res = self.__redis.get(data)
             if fn:
                 return fn(res)
             else:

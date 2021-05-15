@@ -3,7 +3,7 @@
 redis.
 """
 from functools import wraps
-from redis.client import Redis
+from redis import Redis
 from typing import Union, Callable, Optional, Any
 import uuid
 
@@ -13,13 +13,13 @@ class Cache:
 
     def __init__(self):
         """__Init__."""
-        self.__redis = Redis()
-        self.__redis.flushdb()
+        self._redis = Redis()
+        self._redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Takes a data argument and returns a string."""
         data = str(uuid.uuid4())
-        self.__redis.set(data, data)
+        self._redis.set(data, data)
         return data
 
     def get(self, data: str, fn: Optional[Callable] = None) ->\
@@ -27,7 +27,7 @@ class Cache:
         """take a key string argument and
         an optional Callable argument named fn."""
         if data:
-            res = self.__redis.get(data)
+            res = self._redis.get(data)
             if fn:
                 return fn(res)
             else:

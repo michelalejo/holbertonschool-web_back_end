@@ -8,6 +8,41 @@ from typing import Union, Callable, Optional, Any
 import uuid
 
 
+def count_calls(method: Callable) -> Callable:
+    """Incrementing values"""
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """wrapper func"""
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """Storing lists"""
+    @wraps(method)
+    def wrapper(self, *args):
+        """wrapper func"""
+        self._redis.rpush(f"{method.__qualname__}:inputs", str(args))
+        output = method(self, *args)
+        self._redis.rpush(f"{method.__qualname__}:outputs", str(output))
+        return output
+    return wrapper
+
+
+def replay(fn: Callable) -> str:
+    """Retrieving lists"""
+    method = fn.__qualname__
+    inputs = f"{method}:inputs"
+    outputs = f"{method}:outputs"
+    inp_list = fn.__self__._redis.lrange(inputs, 0, -1)
+    out_list = fn.__self__._redis.lrange(outputs, 0, -1)
+    Q = fn.__self__._redis.get(method).decode('utf-8')
+    print(f"{method} was called {Q} times:")
+    for inp, out in zip(inp_list, out_list):
+        print(f"{method}(*{inp.decode('utf-8')}) -> {out.decode('utf-8')}")
+
+
 class Cache:
     """Cache Class."""
 

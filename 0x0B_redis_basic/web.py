@@ -9,9 +9,11 @@ redis = Redis()
 count = 0
 
 
+
 def get_page(url: str) -> str:
     """Track how many times a particular URL was accessed."""
     data = f"count:{url}"
+    count += 1
     redis.set(data, count)
     res = requests.get(url)
     redis.incr(data)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Implementing an expiring web cache and tracker"""
+"""Track how many times a particular URL was accessed."""
 from redis.client import Redis
 import requests
 
@@ -9,10 +9,7 @@ count = 0
 
 
 def get_page(url: str) -> str:
-    """
-    uses the requests module to obtain
-    the HTML content of a particular URL and returns it.
-    """
+    """Track how many times a particular URL was accessed."""
     data = f"count:{url}"
     redis.set(data, count)
     res = requests.get(url)

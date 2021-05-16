@@ -69,7 +69,7 @@ class Cache:
                 return fn(res)
             else:
                 return res
-    
+
     def get_str(self, data: bytes) -> str:
         """Automatically parametrize Cache.get with
         the correct conversion function."""

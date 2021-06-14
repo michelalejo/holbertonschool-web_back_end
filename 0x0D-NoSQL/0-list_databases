@@ -1,0 +1,2 @@
+// Script to lists databases on MongoDB.
+show dbs
